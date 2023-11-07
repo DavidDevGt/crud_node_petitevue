@@ -13,7 +13,11 @@ exports.listarRegistros = (req, res) => {
 exports.crearRegistro = (req, res) => {
   const nuevoRegistro = req.body;
   db.query("INSERT INTO registros SET ?", nuevoRegistro, (err, result) => {
-    if (err) throw err;
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+      return;
+    }
     res.status(201).json({ mensaje: "Registro creado.", id: result.insertId });
   });
 };
