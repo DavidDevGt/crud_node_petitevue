@@ -25,6 +25,65 @@
     ></script>
   </head>
   <body>
-    <div class="container" v-scope></div>
+    <div id="app" class="container">
+      <h2>{{ registroActual.id ? 'Editar' : 'Añadir'}} Registro</h2>
+      <form
+        @submit.prevent="registroActual.id ? actualizarRegistro() : crearRegistro()"
+      >
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            v-model="registroActual.nombre"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            v-model="registroActual.email"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">
+          {{ registroActual.id ? 'Actualizar' : 'Crear' }}
+        </button>
+      </form>
+
+      <h2>Lista de Registros</h2>
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Fecha Creación</th>
+            <th>Accions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="registro in registros" :key="registro.id">
+            <td>{{ registro.id }}</td>
+            <td>{{ registro.nombre }}</td>
+            <td>{{ registro.email }}</td>
+            <td>{{ registro.creado_en }}</td>
+            <td>
+              <button class="btn-btn-warning" @click="editar(registro)">
+                Editar
+              </button>
+              <button class="btn-btn-danger" @click="eliminar(registro.id)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script src="app.js"></script>
   </body>
 </html>
